@@ -28,12 +28,25 @@ export async function compileWithWandbox(language, code, stdin = "", options = {
     if (!response.ok) throw new Error(`Wandbox returned HTTP ${response.status}. Try again in a moment.`);
 
     const result = await response.json();
-    const diagnostics = [result.compiler_error, result.compiler_output, result.program_error]
-      .filter(value => typeof value === "string" && value.trim())
-      .join("\n");
+    const sections = [];
+    if (typeof result.compiler_error === "string" && result.compiler_error.trim()) {
+      sections.push(`Compilation errors:\n${result.compiler_error.trim()}`);
+    }
+    if (typeof result.compiler_output === "string" && result.compiler_output.trim()) {
+      sections.push(result.compiler_output.trim());
+    }
+    if (typeof result.program_error === "string" && result.program_error.trim()) {
+      sections.push(`Runtime errors:\n${result.program_error.trim()}`);
+    }
     const output = typeof result.program_output === "string" ? result.program_output : "";
-    const signal = typeof result.signal === "string" && result.signal ? `Program stopped (${result.signal}).` : "";
-    const text = [diagnostics, output, signal].filter(Boolean).join("\n").trim();
+    if (output.trim()) sections.push(output.trim());
+    if (typeof result.signal === "string" && result.signal) {
+      sections.push(`Program stopped (${result.signal}).`);
+    }
+    if (result.status != null && String(result.status) !== "0") {
+      sections.push(`Program exited with status ${result.status}.`);
+    }
+    const text = sections.join("\n\n").trim();
 
     if (result.status !== "0" && !text) throw new Error("The compiler could not complete this program. Check the code and try again.");
     return {
@@ -49,3 +62,4 @@ export async function compileWithWandbox(language, code, stdin = "", options = {
     clearTimeout(timeout);
   }
 }
+
