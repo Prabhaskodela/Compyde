@@ -29,6 +29,7 @@ jobs:
           curl -fL https://teavm.org/playground/compiler.wasm-runtime.js -o public/java-toolchain/compiler.wasm-runtime.js
           curl -fL https://teavm.org/playground/compile-classlib-teavm.bin -o public/java-toolchain/compile-classlib-teavm.bin
           curl -fL https://teavm.org/playground/runtime-classlib-teavm.bin -o public/java-toolchain/runtime-classlib-teavm.bin
+      - run: npm run test:java
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
