@@ -20,6 +20,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm install
+      - run: npm test
+      - run: npm run test:compiler
       - name: Package local Java toolchain
         run: |
           mkdir -p public/java-toolchain
