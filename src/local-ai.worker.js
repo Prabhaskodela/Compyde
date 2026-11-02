@@ -12,6 +12,7 @@ self.onmessage = async ({ data }) => {
       for await (const part of result) self.postMessage({ type:"chunk", id, text:part.choices[0]?.delta?.content || "" });
       self.postMessage({ type:"done", id });
     }
+    if (type === "stop" && engine) await engine.interruptGenerate();
     if (type === "unload" && engine) { await engine.unload(); engine=null; self.postMessage({type:"unloaded",id}); }
   } catch (error) { self.postMessage({ type:"error", id, message:error?.message || "Local model failed." }); }
 };
