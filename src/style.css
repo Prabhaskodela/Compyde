@@ -4,3 +4,5 @@
 .file-chip{flex-wrap:wrap;max-width:100%}.file-chip span{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.file-chip textarea{width:100%;min-height:60px;resize:vertical;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--text);font:10px/1.5 'DM Mono',monospace;padding:7px}
 .editor-host .cm-editor{min-height:330px;background:var(--surface);color:var(--text);font:13px/1.7 'DM Mono',monospace}.editor-host .cm-scroller{min-height:330px}.editor-host .cm-gutters{background:var(--surface-2);border:0;color:var(--muted)}.editor-host .cm-activeLineGutter,.editor-host .cm-activeLine{background:var(--green-soft)}.editor-host .cm-cursor{border-left-color:var(--green)}
 
+.key-label{display:block;margin:14px 0 7px;font-size:11px;color:var(--muted)}#gemini-key{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2);color:var(--text);font-size:12px;outline:none}#gemini-key:focus{border-color:var(--green)}.key-status{font-size:11px;color:var(--muted);margin:9px 0 4px;min-height:16px}
+

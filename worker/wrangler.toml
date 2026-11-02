@@ -1,9 +1,0 @@
-name = "compyde-ai"
-main = "src/index.js"
-compatibility_date = "2026-10-01"
-
-[vars]
-# Set to your deployed frontend origin(s), comma-separated. Example:
-# ALLOWED_ORIGINS = "https://yourname.github.io"
-GEMINI_MODEL = "gemini-3.5-flash-lite"
-

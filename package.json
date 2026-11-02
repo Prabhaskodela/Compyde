@@ -7,7 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node --test"
+    "test": "node --test tests/gemini.test.js"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.4",
