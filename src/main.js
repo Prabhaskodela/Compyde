@@ -2,6 +2,7 @@ import "./style.css";
 import { streamGemini, DEFAULT_GEMINI_MODEL } from "./services/gemini.js";
 import { basicSetup, EditorView } from "codemirror";
 import { Compartment } from "@codemirror/state";
+import sqlWasmUrl from "sql.js/dist/sql-wasm-browser.wasm?url";
 import { javascript } from "@codemirror/lang-javascript";
 import { python } from "@codemirror/lang-python";
 
@@ -76,14 +77,14 @@ async function runCode(){
  try{
   if(lang==='javascript'){
    const frame=document.createElement('iframe');frame.sandbox='allow-scripts';frame.hidden=true;document.body.append(frame);
-   const result=await new Promise(resolve=>{let settled=false;const finish=value=>{if(settled)return;settled=true;clearTimeout(timer);window.removeEventListener('message',listener);resolve(value)};const timer=setTimeout(()=>finish('Execution stopped after 3 seconds.'),3000);const listener=e=>{if(e.source===frame.contentWindow)return finish(e.data)};window.addEventListener('message',listener);frame.srcdoc=`<script>const logs=[];for(const m of ['log','info','warn','error'])console[m]=(...a)=>logs.push(a.map(x=>{try{return typeof x==='object'?JSON.stringify(x):String(x)}catch{return String(x)}}).join(' '));try{${code}\nparent.postMessage(logs.join('\\n')||'Program finished with no output.','*')}catch(e){parent.postMessage('Error: '+e.message,'*')}<\\/script>`});frame.remove();out.textContent=result;return
+   const result=await new Promise(resolve=>{let settled=false;const finish=value=>{if(settled)return;settled=true;clearTimeout(timer);window.removeEventListener('message',listener);resolve(value)};const timer=setTimeout(()=>finish('Execution stopped after 3 seconds.'),3000);const listener=e=>{if(e.source!==frame.contentWindow)return;finish(e.data)};window.addEventListener('message',listener);frame.srcdoc=`<script>const logs=[];for(const m of ['log','info','warn','error'])console[m]=(...a)=>logs.push(a.map(x=>{try{return typeof x==='object'?JSON.stringify(x):String(x)}catch{return String(x)}}).join(' '));try{${code}\nparent.postMessage(logs.join('\\n')||'Program finished with no output.','*')}catch(e){parent.postMessage('Error: '+e.message,'*')}<\\/script>`});frame.remove();out.textContent=result;return
   }
   if(lang==='html'){const frame=document.createElement('iframe');frame.sandbox='';frame.className='preview-frame';frame.title='HTML and CSS preview';frame.srcdoc=code;out.replaceWith(frame);frame.id='compiler-output';return}
   if(lang==='python'){
    out.textContent='Loading Python runtime… (first run downloads Pyodide)';const url='https://cdn.jsdelivr.net/pyodide/v0.29.1/full/pyodide.mjs';const {loadPyodide}=await import(/* @vite-ignore */ url);const py=await loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.29.1/full/'});let logs='';py.setStdout({batched:s=>logs+=s+'\\n'});py.setStderr({batched:s=>logs+=s+'\\n'});await py.runPythonAsync(code);out.textContent=logs.trimEnd()||'Program finished with no output.';return
   }
   if(lang==='sql'){
-   out.textContent='Loading SQLite runtime…';const initSqlJs=(await import('sql.js')).default;const SQL=await initSqlJs({locateFile:f=>`https://sql.js.org/dist/${f}`});const db=new SQL.Database();try{const results=db.exec(code);const lines=results.map(r=>[r.columns.join(' | '),...r.values.map(row=>row.map(v=>v===null?'NULL':String(v)).join(' | '))].filter(Boolean).join('\\n'));out.textContent=lines.join('\\n\\n')||'SQL ran successfully. No rows were returned.'}finally{db.close()}return
+   out.textContent='Loading SQLite runtime…';const initSqlJs=(await import('sql.js')).default;const SQL=await initSqlJs({locateFile:()=>sqlWasmUrl});const db=new SQL.Database();try{const results=db.exec(code);const lines=results.map(r=>[r.columns.join(' | '),...r.values.map(row=>row.map(v=>v===null?'NULL':String(v)).join(' | '))].filter(Boolean).join('\\n'));out.textContent=lines.join('\\n\\n')||'SQL ran successfully. No rows were returned.'}finally{db.close()}return
   }
  }catch(e){out.textContent=`${e.name||'Error'}: ${e.message||'Could not run this program.'}\\nCheck your connection if a runtime is downloading, then try again.`}
  finally{state.runtimeBusy=false}
