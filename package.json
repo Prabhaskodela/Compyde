@@ -1,0 +1,10 @@
+{
+  "name": "compyde",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {"dev":"vite --host 0.0.0.0", "build":"vite build", "preview":"vite preview --host 0.0.0.0"},
+  "dependencies": {"@mlc-ai/web-llm":"^0.2.80","@codemirror/lang-javascript":"^6.2.4","@codemirror/lang-python":"^6.2.1","codemirror":"^6.0.1","pdfjs-dist":"^5.4.624","sql.js":"^1.13.0"},
+  "devDependencies": {"vite":"^7.1.12"}
+}
+
