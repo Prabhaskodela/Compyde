@@ -7,7 +7,9 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node --test"
+    "test": "node --test",
+    "test:compiler": "node scripts/native-compiler-check.mjs",
+    "postinstall": "node scripts/patch-browsercc.js"
   },
   "dependencies": {
     "@bjorn3/browser_wasi_shim": "^0.4.2",
