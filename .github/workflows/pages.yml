@@ -26,7 +26,7 @@ jobs:
         run: |
           mkdir -p public/java-toolchain
           curl -fL https://teavm.org/playground/compiler.wasm -o public/java-toolchain/compiler.wasm
-          curl -fL https://teavm.org/playground/compiler.wasm-runtime.js -o public/java-toolchain/compiler.wasm-runtime.js
+          curl -fL -A 'Mozilla/5.0 COMPYDE toolchain packager' -e 'https://teavm.org/playground.html' https://teavm.org/playground/compiler.wasm-runtime.js -o public/java-toolchain/compiler.wasm-runtime.js
           curl -fL https://teavm.org/playground/compile-classlib-teavm.bin -o public/java-toolchain/compile-classlib-teavm.bin
           curl -fL https://teavm.org/playground/runtime-classlib-teavm.bin -o public/java-toolchain/runtime-classlib-teavm.bin
       - run: npm run test:java
