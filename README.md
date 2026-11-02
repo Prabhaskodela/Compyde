@@ -12,7 +12,7 @@
 - Local AI runs WebLLM in a Web Worker with WebGPU. It loads only after you choose a model and start loading it. The model cache is managed by WebLLM; settings offer load, unload and cache deletion. Model downloads can be several GB and availability depends on browser, GPU and memory. Local prompts are not sent to Gemini.
 - Conversations are stored in browser IndexedDB, with migration from older LocalStorage history, search, edit last prompt, regenerate, stop generation, per-chat deletion, JSON export, and clear-all controls. Browser data is device-specific and can be removed when browser data is cleared.
 - JPG, PNG and WEBP attachments support Gemini image understanding. Local AI extracts editable text with Tesseract.js and sends only that text to the local model; it does not provide local visual understanding. PDFs use PDF.js extraction (up to 20 pages / 50,000 characters); scanned PDFs use OCR for up to the first three pages. OCR can fail on handwriting, poor images or diagrams.
-- Compiler Hub provides CodeMirror editing, JavaScript execution in a sandboxed iframe, HTML/CSS preview, Python through a cached Pyodide runtime, SQL through bundled SQLite WebAssembly, and C/C++/Java compilation through the public Wandbox API. C/C++/Java source and optional standard input leave the browser over HTTPS and may be logged or rate-limited by Wandbox. The service has no uptime guarantee. Python downloads Pyodide from its CDN on first use. JavaScript execution is time-limited, but the browser compilers are not hardened against hostile code.
+- Compiler Hub provides CodeMirror editing, JavaScript execution in a sandboxed iframe, HTML/CSS preview, Python through a cached Pyodide runtime in a Web Worker, SQL through bundled SQLite WebAssembly, and C/C++/Java compilation through the public Wandbox API. C/C++/Java source and optional standard input leave the browser over HTTPS and may be logged or rate-limited by Wandbox. The service has no uptime guarantee. Python downloads Pyodide from its CDN on first use. JavaScript execution is time-limited, but the browser compilers are not hardened against hostile code.
 - Code or compiler errors can be sent to Smart Assistant. Review generated code before running it.
 
 ## Run locally
@@ -46,3 +46,4 @@ The repository includes `.github/workflows/pages.yml`. Pushes to `main` build Vi
 ## Privacy and limits
 
 Local inference sends prompts only to the local browser model. The first model download retrieves model files from WebLLM's hosting source. Cloud AI sends prompts and attached image data directly to Google Gemini. PDF text and OCR are processed in the browser, then sent only to the selected mode. No prompt analytics are included. Chat history is device-specific and is not synchronized.
+
