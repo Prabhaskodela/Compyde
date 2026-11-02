@@ -38,4 +38,3 @@ test("gives an actionable quota message for HTTP 429", async t => {
 test("requires a key before making a request", async () => {
   await assert.rejects(streamGemini({apiKey:"",contents:[],onText:()=>{}}),/API key/i);
 });
-

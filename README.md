@@ -46,4 +46,3 @@ The repository includes `.github/workflows/pages.yml`. Pushes to `main` build Vi
 ## Privacy and limits
 
 Local inference sends prompts only to the local browser model. The first model download retrieves model files from WebLLM's hosting source. Cloud AI sends prompts and attached image data directly to Google Gemini. PDF text and OCR are processed in the browser, then sent only to the selected mode. No prompt analytics are included. Chat history is device-specific and is not synchronized.
-

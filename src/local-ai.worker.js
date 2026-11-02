@@ -16,4 +16,3 @@ self.onmessage = async ({ data }) => {
     if (type === "unload" && engine) { await engine.unload(); engine=null; self.postMessage({type:"unloaded",id}); }
   } catch (error) { self.postMessage({ type:"error", id, message:error?.message || "Local model failed." }); }
 };
-

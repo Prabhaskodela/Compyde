@@ -63,4 +63,3 @@ export async function streamGemini({ apiKey, contents, onText, signal, model = D
   }
   if (!receivedText) throw new Error("Gemini returned no text. Check the selected model and try again.");
 }
-
