@@ -6,7 +6,9 @@ const toolchain = new URL("../public/java-toolchain/", import.meta.url);
 const fetchImpl = globalThis.fetch;
 globalThis.fetch = async (input, options) => {
   const url = new URL(input);
-  if (url.protocol === "file:") return new Response(await readFile(fileURLToPath(url)));
+  if (url.protocol === "file:") return new Response(await readFile(fileURLToPath(url)), {
+    headers: { "Content-Type": url.pathname.endsWith(".wasm") ? "application/wasm" : "application/octet-stream" },
+  });
   return fetchImpl(input, options);
 };
 globalThis.self = globalThis;
