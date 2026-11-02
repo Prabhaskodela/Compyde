@@ -10,6 +10,7 @@
     "test": "node --test"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.20.4",
     "@codemirror/lang-javascript": "^6.2.4",
     "@codemirror/lang-python": "^6.2.1",
     "@mlc-ai/web-llm": "^0.2.80",
@@ -21,3 +22,4 @@
     "vite": "^7.1.12"
   }
 }
+
