@@ -24,7 +24,23 @@ test("shows compiler diagnostics when source has errors", async () => {
     fetchImpl: async () => Response.json({ status: "1", compiler_error: "expected declaration", compiler_output: "", program_output: "" }),
   });
   assert.equal(result.ok, false);
-  assert.match(result.text, /expected declaration/);
+  assert.match(result.text, /Compilation errors:[\s\S]*expected declaration/);
+});
+
+test("shows runtime errors, program output, and a non-zero exit status", async () => {
+  const result = await compileWithWandbox("cpp", "source", "", {
+    fetchImpl: async () => Response.json({
+      status: "2",
+      compiler_error: "",
+      compiler_output: "",
+      program_error: "invalid input",
+      program_output: "before error",
+    }),
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.text, /Runtime errors:[\s\S]*invalid input/);
+  assert.match(result.text, /before error/);
+  assert.match(result.text, /exited with status 2/);
 });
 
 test("explains rate limits and rejects unsupported or oversized requests", async () => {
@@ -35,3 +51,4 @@ test("explains rate limits and rejects unsupported or oversized requests", async
   await assert.rejects(compileWithWandbox("go", "source"), /No hosted compiler/);
   await assert.rejects(compileWithWandbox("cpp", "x".repeat(50_001)), /50,000 character limit/);
 });
+
