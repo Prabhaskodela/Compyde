@@ -23,3 +23,5 @@
 .cm-tooltip-autocomplete ul{font:12px/1.5 'DM Mono',monospace;max-height:220px;max-width:100%}
 .cm-tooltip-autocomplete ul li{padding:5px 9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cm-tooltip-autocomplete ul li[aria-selected]{background:var(--green-soft);color:var(--text)}
+.editor-host .cm-content{user-select:text;-webkit-user-select:text;cursor:text}.editor-host .cm-editor{caret-color:var(--green)}.compiler-output[data-state="error"]{color:#a33636;background:color-mix(in srgb,#d95454 8%,var(--surface-2));border-left:3px solid #d95454}.compiler-output[data-state="success"]{border-left:3px solid var(--green)}
+
