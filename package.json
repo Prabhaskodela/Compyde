@@ -9,6 +9,7 @@
     "preview": "vite preview --host 0.0.0.0",
     "test": "node --test",
     "test:compiler": "node scripts/native-compiler-check.mjs",
+    "test:java": "node scripts/java-compiler-check.mjs",
     "postinstall": "node scripts/patch-browsercc.js"
   },
   "dependencies": {
