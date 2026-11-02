@@ -19,7 +19,14 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      - run: npm install
+      - name: Package local Java toolchain
+        run: |
+          mkdir -p public/java-toolchain
+          curl -fL https://teavm.org/playground/compiler.wasm -o public/java-toolchain/compiler.wasm
+          curl -fL https://teavm.org/playground/compiler.wasm-runtime.js -o public/java-toolchain/compiler.wasm-runtime.js
+          curl -fL https://teavm.org/playground/compile-classlib-teavm.bin -o public/java-toolchain/compile-classlib-teavm.bin
+          curl -fL https://teavm.org/playground/runtime-classlib-teavm.bin -o public/java-toolchain/runtime-classlib-teavm.bin
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
